@@ -54,7 +54,12 @@ public class AndersonThomasRSA
 	}
 
 	public int[] keygen (int inP, int inQ, int inE) {
-		// TO BE FINISHED
+		//private key = e^-1mod(toteint of (p-1)(q-1))
+		int privateKey = xgcd(inE,(inP-1)*(inQ-1));
+
+		int n = inP*inQ;
+		int[] keys = {inE,n,privateKey};
+		return keys;
 	}
 
 	//
@@ -78,6 +83,18 @@ public class AndersonThomasRSA
 	//
 	public int modExp (int a, int b, int n) {
 		// TO BE FINISHED
+		int y = b;
+		int x = 1;
+		int w = a;
+		while(y>0){
+			int d=y%2;
+			y=y/2;
+			if(d==1){
+				x = (x*w)%n;
+			}
+			w = (w*w)%n;
+		}
+		return x;
 	}
 
 	public int encrypt (int message, int inE, int inN) {
@@ -115,3 +132,4 @@ public class AndersonThomasRSA
 		atrsa.testRSA ();
 	}
 }
+
