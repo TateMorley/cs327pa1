@@ -4,13 +4,13 @@ import java.util.Random;
  * @author Xunhua Wang. All rights reserved.
  * @date 02/16/2012; revised on 09/27/2018; further refined on 09/20/2019,
  *       09/29/2020, 10/07/2022, 03/13/2023; 09/14/2024; 09/15/2025
- * 
+ *
  */
 
 public class AndersonThomasRSA {
 	/**
 	 * An iterative Euclid algorithm to find the gcd of two integers
-	 * 
+	 *
 	 * @param inE number 1
 	 * @param inZ number 2
 	 * @return the gcd
@@ -20,15 +20,14 @@ public class AndersonThomasRSA {
 		inE = Math.abs(inE);
 		inZ = Math.abs(inZ);
 
-		while (inE != inZ) {
-			if (inE > inZ) {
-				inE -= inZ;
-			} else if (inE < inZ) {
-				inZ -= inE;
-			}
-		}
+		int remainder;
+		while (inZ != 0) {
+		remainder = inE % inZ;
+		inE = inZ;
+		inZ = remainder;
+	}
 
-		return inE;
+	return inE;
 	}
 
 	public void testGcd() {
@@ -98,7 +97,7 @@ public class AndersonThomasRSA {
 			if (t_previous > 0)
 			{
 				return t_previous;
-			} else 
+			} else
 			{
 				return t_previous + inZ;
 			}
@@ -167,13 +166,11 @@ public class AndersonThomasRSA {
 	}
 
 	public int encrypt(int message, int inE, int inN) {
-		return 0;
-		// TO BE FINISHED
+		return modExp(message, inE, inN);
 	}
 
 	public int decrypt(int ciphertext, int inD, int inN) {
-		return 0;
-		// TO BE FINISHED
+		return modExp(ciphertext, inD, inN);
 	}
 
 	public void testRSA() {
