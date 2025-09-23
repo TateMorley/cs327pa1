@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -107,13 +108,13 @@ int modExp (int message, int inE, int inN)
 
 int encrypt (int message, int inE, int inN)
 {
-    // TO BE FINISHED
+    return modExp(message, inE, inN);
 }
 
 
 int decrypt (int ciphertext, int inD, int inN)
 {
-    // TO BE FINISHED
+    return modExp(ciphertext, inD, inN);
 }
 
 
