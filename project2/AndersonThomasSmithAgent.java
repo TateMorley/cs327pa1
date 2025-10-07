@@ -46,6 +46,8 @@ public class AndersonThomasSmithAgent {
         System.out.println("p = " + p.toString(16));
         System.out.println("q = " + q.toString(16));
         System.out.println("Bit-length of N = " + numOfBitsInN);
+        System.out.println("Bit-length of p = " + p.bitLength());
+        System.out.println("Bit-length of q = " + q.bitLength());
         System.out.println("d = " + d.toString(16));
         System.out.println("c = " + results[0].toString(16));
         System.out.println("m2 = " + results[1].toString(16));
@@ -80,15 +82,17 @@ public class AndersonThomasSmithAgent {
         BigInteger z2 = w2.multiply(y2);
 
         // RSA benchmarking
+        BigInteger rsaDecrypted = null;
         long startRSA = System.nanoTime();
         for (int i = 0; i < 1000; i++) {
-            BigInteger RSAResult = c.modPow(d, N);
+            rsaDecrypted = c.modPow(d, N);
         }
         long endRSA = System.nanoTime();
         double RSAAvgTime = (endRSA - startRSA) / 1_000_000_000.0 / 1000;
         double RSAkbps = N.bitLength() / RSAAvgTime / 1000;
 
         // CRT benchmarking
+        BigInteger crtDecrypted = null;
         long startCRT = System.nanoTime();
         for (int i = 0; i < 1000; i++) {
             BigInteger a1 = c.modPow(dp, p);
@@ -96,7 +100,7 @@ public class AndersonThomasSmithAgent {
             BigInteger leftSide = a1.multiply(z1);
             BigInteger rightSide = a2.multiply(z2);
             BigInteger total = rightSide.add(leftSide);
-            BigInteger x = total.mod(N);
+            crtDecrypted = total.mod(N);
         }
         long endCRT = System.nanoTime();
         double CRTAvgTime = (endCRT - startCRT) / 1_000_000_000.0 / 1000;
@@ -112,6 +116,8 @@ public class AndersonThomasSmithAgent {
         System.out.println("Bit-length of q is " + q.bitLength());
         System.out.println("Bob's private key d is 0x" + d.toString(16));
         System.out.println("Bob's ciphertext is 0x" + c.toString(16));
+        System.out.println("RSA decrypted plaintext = 0x" + rsaDecrypted.toString(16));
+        System.out.println("CRT decrypted plaintext = 0x" + crtDecrypted.toString(16));
         System.out.println("RSA decryption speed is " + RSAkbps + "kbps");
         System.out.println("CRT decryption speed is " + CRTkbps + "kbps");
         System.out.println("CRT is " + (RSAAvgTime / CRTAvgTime) + "x faster");
