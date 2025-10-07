@@ -1,6 +1,6 @@
 import java.math.BigInteger;
 
-public class AndersonThomasSmithAgent {
+public class AndersonThomasSmithAgentRSA {
 
     private static BigInteger[] encryptDecrypt(BigInteger m, BigInteger e, BigInteger N, BigInteger d) {
         // encrypt message
