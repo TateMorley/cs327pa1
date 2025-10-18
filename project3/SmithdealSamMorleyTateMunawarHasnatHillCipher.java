@@ -1,9 +1,11 @@
+import java.util.Arrays;
+
 public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
 
     String encodeString = "abcdefghijklmnopqrstuvwxyz";
-    final int divisor = 26;
+    int divisor = 26;
 
-    public static int[][] findDecryptionKey(int encryptionKey[][]){
+    public int[][] findDecryptionKey(int encryptionKey[][]){
         int[][] decryptionKey = new int[2][2];
         int a = encryptionKey[0][0];
         int b = encryptionKey[0][1];
@@ -23,12 +25,42 @@ public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
         return decryptionKey;
     }
 
-    public static int[] encrypt(int plainText[], int encryptionKey[][]){
-        return null;
+    public int[] encrypt(int plainText[], int encryptionKey[][]){
+        int[] encryptedMsg;
+        int currentIndex = 0;
+        if(plainText.length%2==1){
+            encryptedMsg = new int[plainText.length+1];
+            plainText = Arrays.copyOf(plainText, plainText.length + 1);
+            //25 used to pad with 'z' if message length uneven
+            plainText[plainText.length-1] = 25;
+        }
+        else{
+            encryptedMsg = new int[plainText.length];
+        }
+
+        for(int x = 0;x<plainText.length-1;x+=2){
+            encryptedMsg[currentIndex++] = (encryptionKey[0][0] * plainText[x] + encryptionKey[0][1] * plainText[x+1])%26;
+            encryptedMsg[currentIndex++] = (encryptionKey[1][0] * plainText[x] + encryptionKey[1][1] * plainText[x+1])%26;
+        }
+
+        //times
+        return encryptedMsg;
     }
 
     public static int[] decrypt(int cipherText[], int decryptionKey[][]){
         return null;
+    }
+
+    //converts a string to an array of ints
+    //each int in the array returned, is the index of that letter in the alphabet
+    //example: "abc" returns [0,1,2]
+    public int[] textToInt(String text){
+        int[] result = new int[text.length()];
+        text = text.toLowerCase();
+        for(int x = 0;x<text.length();x++){
+            result[x] = encodeString.indexOf(text.charAt(x));
+        }
+        return result;
     }
 
 	public int xgcd(int inE, int inZ) {
@@ -81,6 +113,21 @@ public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
 	}
 
     public static void main(String[] args) throws Exception {
+        int test[][] = {{9,4},{5,7}};
+        SmithdealSamMorleyTateMunawarHasnatHillCipher t = new SmithdealSamMorleyTateMunawarHasnatHillCipher();
+        int answer[][] = t.findDecryptionKey(test);
+
+        // for(int x = 0;x<2;x++){
+        //     for(int y = 0;y<2;y++){
+        //         System.out.println(answer[x][y]);
+        // }
+        // }
+        String word = "runmanrun";
+        int v[] = t.textToInt(word);
+        int g[] = t.encrypt(v,test);
+        for(var x = 0;x<g.length;x++){
+            System.out.println(g[x]);
+        }
 
     }
 }
