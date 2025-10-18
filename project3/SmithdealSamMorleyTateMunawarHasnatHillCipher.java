@@ -4,7 +4,23 @@ public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
     final int divisor = 26;
 
     public static int[][] findDecryptionKey(int encryptionKey[][]){
-        return null;
+        int[][] decryptionKey = new int[2][2];
+        int a = encryptionKey[0][0];
+        int b = encryptionKey[0][1];
+        int c = encryptionKey[1][0];
+        int d = encryptionKey[1][1];
+        int denominator = (a*d)-(b*c);
+
+        if(denominator>divisor){
+            denominator = denominator%divisor;
+        }
+
+        decryptionKey[0][0] = ((d * xgcd(denominator,divisor))%divisor + divisor)%divisor;
+        decryptionKey[0][1] = ((-b * xgcd(denominator,divisor))%divisor + divisor)%divisor;
+        decryptionKey[1][0] = ((-c * xgcd(denominator,divisor))%divisor + divisor)%divisor;
+        decryptionKey[1][1] = ((a * xgcd(denominator,divisor))%divisor + divisor)%divisor;
+
+        return decryptionKey;
     }
 
     public static int[] encrypt(int plainText[], int encryptionKey[][]){
