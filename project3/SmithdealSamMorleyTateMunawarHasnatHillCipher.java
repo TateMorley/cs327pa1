@@ -39,22 +39,22 @@ public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
         }
 
         for(int x = 0;x<plainText.length-1;x+=2){
-            encryptedMsg[currentIndex++] = (encryptionKey[0][0] * plainText[x] + encryptionKey[0][1] * plainText[x+1])%26;
-            encryptedMsg[currentIndex++] = (encryptionKey[1][0] * plainText[x] + encryptionKey[1][1] * plainText[x+1])%26;
+            encryptedMsg[currentIndex++] = (encryptionKey[0][0] * plainText[x] + encryptionKey[0][1] * plainText[x+1])%divisor;
+            encryptedMsg[currentIndex++] = (encryptionKey[1][0] * plainText[x] + encryptionKey[1][1] * plainText[x+1])%divisor;
         }
 
         //times
         return encryptedMsg;
     }
 
-    public static int[] decrypt(int cipherText[], int decryptionKey[][]){
+    public int[] decrypt(int cipherText[], int decryptionKey[][]){
         int[] decryptedMsg = new int[cipherText.length];
         int currIndex = 0;
 
         for (int i = 0; i < cipherText.length; i += 2)
         {
-            int first = (decryptionKey[0][0] * cipherText[i] + decryptionKey[0][1] * cipherText[i + 1]) % 26;
-            int second = (decryptionKey[1][0] * cipherText[i] + decryptionKey[1][1] * cipherText[i + 1]) % 26;
+            int first = (decryptionKey[0][0] * cipherText[i] + decryptionKey[0][1] * cipherText[i + 1]) % divisor;
+            int second = (decryptionKey[1][0] * cipherText[i] + decryptionKey[1][1] * cipherText[i + 1]) % divisor;
 
             decryptedMsg[currIndex++] = (first % 26 + 26) % 26;
             decryptedMsg[currIndex++] = (second % 26 + 26) % 26;
@@ -74,6 +74,17 @@ public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
         }
         return result;
     }
+
+    public String intToText(int[] ints) {
+        StringBuilder result = new StringBuilder(); // or StringBuffer if you prefer
+
+        for (int x = 0; x < ints.length; x++) {
+            result.append(encodeString.charAt(ints[x]));
+        }
+
+        return result.toString(); // convert StringBuilder to String
+    }
+
 
 	public int xgcd(int inE, int inZ) {
 		int s_previous = 1;
@@ -125,21 +136,21 @@ public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
 	}
 
     public static void main(String[] args) throws Exception {
-        int test[][] = {{9,4},{5,7}};
-        SmithdealSamMorleyTateMunawarHasnatHillCipher t = new SmithdealSamMorleyTateMunawarHasnatHillCipher();
-        int answer[][] = t.findDecryptionKey(test);
+        int encryptionKey[][] = {{16,7},{9,14}};
+        SmithdealSamMorleyTateMunawarHasnatHillCipher instance = new SmithdealSamMorleyTateMunawarHasnatHillCipher();
+        String msg = "jmucsiscool";
+        int decryptionKey[][] = instance.findDecryptionKey(encryptionKey);
+        int encryptedMsg[] = instance.encrypt(instance.textToInt(msg), encryptionKey);
+        int decryptedMsg[] = instance.decrypt(encryptedMsg, decryptionKey);
 
-        // for(int x = 0;x<2;x++){
-        //     for(int y = 0;y<2;y++){
-        //         System.out.println(answer[x][y]);
-        // }
-        // }
-        String word = "runmanrun";
-        int v[] = t.textToInt(word);
-        int g[] = t.encrypt(v,test);
-        for(var x = 0;x<g.length;x++){
-            System.out.println(g[x]);
-        }
-
+        System.out.println("MESSAGE: "+msg);
+        System.out.print("ENCRYPTION KEY: ");
+        System.out.println("("+encryptionKey[0][0] + " " + encryptionKey[0][1] + ")");
+        System.out.println("\t\t("+encryptionKey[1][0] + " " + encryptionKey[1][1] + ")");
+        System.out.print("DECRYPTION KEY: ");
+        System.out.println("("+decryptionKey[0][0] + " " + decryptionKey[0][1] + ")");
+        System.out.println("\t\t("+decryptionKey[1][0] + " " + decryptionKey[1][1] + ")");
+        System.out.println("ENCRYPTED MESSAGE: "+instance.intToText(encryptedMsg));
+        System.out.println("DECRYPTED MESSAGE: "+instance.intToText(decryptedMsg));
     }
 }
