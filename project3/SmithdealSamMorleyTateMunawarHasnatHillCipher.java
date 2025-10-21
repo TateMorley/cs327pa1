@@ -48,7 +48,19 @@ public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
     }
 
     public static int[] decrypt(int cipherText[], int decryptionKey[][]){
-        return null;
+        int[] decryptedMsg = new int[cipherText.length];
+        int currIndex = 0;
+
+        for (int i = 0; i < cipherText.length; i += 2)
+        {
+            int first = (decryptionKey[0][0] * cipherText[i] + decryptionKey[0][1] * cipherText[i + 1]) % 26;
+            int second = (decryptionKey[1][0] * cipherText[i] + decryptionKey[1][1] * cipherText[i + 1]) % 26;
+
+            decryptedMsg[currIndex++] = (first % 26 + 26) % 26;
+            decryptedMsg[currIndex++] = (second % 26 + 26) % 26;
+        }
+        
+        return decryptedMsg;
     }
 
     //converts a string to an array of ints
