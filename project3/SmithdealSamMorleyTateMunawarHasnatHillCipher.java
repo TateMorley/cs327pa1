@@ -154,7 +154,16 @@ public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
         System.out.print("DECRYPTION KEY: ");
         System.out.println("("+decryptionKey[0][0] + " " + decryptionKey[0][1] + ")");
         System.out.println("\t\t("+decryptionKey[1][0] + " " + decryptionKey[1][1] + ")");
-        System.out.println("ENCRYPTED MESSAGE: "+instance.intToText(encryptedMsg));
+        System.out.println("\nENCRYPTED MESSAGE: "+instance.intToText(encryptedMsg));
         System.out.println("DECRYPTED MESSAGE: "+instance.intToText(decryptedMsg));
+
+        String cipherText = "MQGVGQSMJI";
+        int[] cipherTextInt = instance.textToInt(cipherText.toLowerCase());
+        int[] decryptedCipherText = instance.decrypt(cipherTextInt, decryptionKey);
+        String decryptedText = instance.intToText(decryptedCipherText);
+
+        System.out.println("\nGIVEN CYPHERTEXT: " + cipherText);
+        System.out.println("DECRYPTED CYPHERTEXT: " + decryptedText.toUpperCase());
+
     }
 }
