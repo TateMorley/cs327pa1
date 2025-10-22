@@ -59,7 +59,11 @@ public class SmithdealSamMorleyTateMunawarHasnatHillCipher {
             decryptedMsg[currIndex++] = (first % 26 + 26) % 26;
             decryptedMsg[currIndex++] = (second % 26 + 26) % 26;
         }
-        
+
+        if (decryptedMsg[decryptedMsg.length - 1] == 25) {
+            decryptedMsg = Arrays.copyOf(decryptedMsg, decryptedMsg.length - 1);
+        }
+
         return decryptedMsg;
     }
 

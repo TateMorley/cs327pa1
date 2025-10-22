@@ -1,1 +1,1 @@
-
+To run code, either hit the run button in your IDE, or navigate to the directory and run "java SmithdealSamMorleyTateMunawarHasnatHillCipher.java"
